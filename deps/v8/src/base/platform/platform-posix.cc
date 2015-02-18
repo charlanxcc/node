@@ -327,6 +327,8 @@ int OS::GetCurrentThreadId() {
   return static_cast<int>(syscall(__NR_gettid));
 #elif V8_OS_ANDROID
   return static_cast<int>(gettid());
+#elif V8_OS_FREEBSD
+  return static_cast<int>((int64_t) (void *) pthread_self());
 #else
   return static_cast<int>(pthread_self());
 #endif

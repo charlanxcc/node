@@ -122,10 +122,10 @@ static unsigned StringToLong(char* buffer) {
 
 
 std::vector<OS::SharedLibraryAddress> OS::GetSharedLibraryAddresses() {
-  std::vector<SharedLibraryAddress> result;
+  std::vector<SharedLibraryAddress> addr;
   static const int MAP_LENGTH = 1024;
   int fd = open("/proc/self/maps", O_RDONLY);
-  if (fd < 0) return result;
+  if (fd < 0) return addr;
   while (true) {
     char addr_buffer[11];
     addr_buffer[0] = '0';
@@ -156,10 +156,10 @@ std::vector<OS::SharedLibraryAddress> OS::GetSharedLibraryAddresses() {
     // There may be no filename in this line.  Skip to next.
     if (start_of_path == NULL) continue;
     buffer[bytes_read] = 0;
-    result.push_back(SharedLibraryAddress(start_of_path, start, end));
+    addr.push_back(SharedLibraryAddress(start_of_path, start, end));
   }
   close(fd);
-  return result;
+  return addr;
 }
 
 
